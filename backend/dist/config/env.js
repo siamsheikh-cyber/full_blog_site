@@ -1,0 +1,16 @@
+import dotenv from "dotenv";
+dotenv.config();
+const EnvFn = () => {
+    const requireEnv = [
+        "PORT"
+    ];
+    requireEnv.forEach((test) => {
+        if (!process.env[test])
+            throw new Error(`Your ${test} is missing`);
+    });
+    return {
+        PORT: process.env.PORT
+    };
+};
+export const env = EnvFn();
+//# sourceMappingURL=env.js.map
