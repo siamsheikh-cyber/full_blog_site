@@ -2,12 +2,16 @@ import dotenv from "dotenv"
 
 dotenv.config()
 
+type envType = {
+    PORT: string,
+    DB_URI: string
+}
 
 
-
-const EnvFn = () => {
+const EnvFn = (): envType => {
     const requireEnv = [
-        "PORT"
+        "PORT",
+        "DB_URI"
     ]
 
     requireEnv.forEach((test: string) => {
@@ -16,9 +20,10 @@ const EnvFn = () => {
     })
 
     return {
-        PORT: process.env.PORT
+        PORT: process.env.PORT as string,
+        DB_URI: process.env.DB_URI as string
     }
 }
 
 
-export const setenv = EnvFn()
+export const envVars = EnvFn()
