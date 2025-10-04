@@ -1,7 +1,6 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -11,13 +10,13 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "description": "",
   "devDependencies": {
     "nodemon": "^3.1.10",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.2"
   },
   "dependencies": {
     "@types/express": "^5.0.3",
-    "@types/http-status-codes": "^1.2.0",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "http-status-codes": "^2.3.0",

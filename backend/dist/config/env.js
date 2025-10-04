@@ -1,16 +1,17 @@
 import dotenv from "dotenv";
 dotenv.config();
-const EnvFn = () => {
-    const requireEnv = [
+const envVarsFn = () => {
+    const requiredEnvVariables = [
         "PORT"
     ];
-    requireEnv.forEach((test) => {
-        if (!process.env[test])
-            throw new Error(`Your ${test} is missing`);
+    requiredEnvVariables.forEach((key) => {
+        if (!process.env[key]) {
+            throw new Error(`Missing required environment variable ${key}`);
+        }
     });
     return {
-        PORT: process.env.PORT
+        PORT: process.env.PORT,
     };
 };
-export const env = EnvFn();
+export const envVars = envVarsFn();
 //# sourceMappingURL=env.js.map
