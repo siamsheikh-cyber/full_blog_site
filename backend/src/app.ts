@@ -1,5 +1,6 @@
 import express, { type Application } from "express";
 import router from "./app/router/index.js";
+import GlobalErrorHandeler from "./app/middleware/globalErrorHandeler.js";
 
 const app: Application = express()
 
@@ -13,6 +14,9 @@ app.get('/', (req, res) => {
 
 
 app.use('/api/v1', router);
+
+
+app.use(GlobalErrorHandeler);
 
 
 export default app;
