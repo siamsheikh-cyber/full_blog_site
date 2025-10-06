@@ -1,3 +1,4 @@
+import PasswordInput from "@/components/password-input";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -10,6 +11,8 @@ import { z } from "zod";
 
 const formSchema = z
     .object({
+        name: z.string().min(1, "Please enter your name."),
+
         email: z.string().trim().email("Please enter a valid email address"),
         password: z
             .string()
@@ -27,6 +30,7 @@ function SignUp() {
 
     const form = useForm<z.infer<typeof formSchema>>({
         defaultValues: {
+            name: "",
             email: "",
             password: "",
             confirm_password: ""
@@ -54,6 +58,26 @@ function SignUp() {
                         className="w-full space-y-4"
                         onSubmit={form.handleSubmit(onSubmit)}
                     >
+
+                        <FormField
+                            control={form.control}
+                            name="name"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Name</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            type="text"
+                                            placeholder="Full Name"
+                                            className="w-full"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
                         <FormField
                             control={form.control}
                             name="email"
@@ -79,12 +103,7 @@ function SignUp() {
                                 <FormItem>
                                     <FormLabel>Password</FormLabel>
                                     <FormControl>
-                                        <Input
-                                            type="password"
-                                            placeholder="Password"
-                                            className="w-full"
-                                            {...field}
-                                        />
+                                        <PasswordInput placeholder="Password" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -97,12 +116,7 @@ function SignUp() {
                                 <FormItem>
                                     <FormLabel>Confirm password</FormLabel>
                                     <FormControl>
-                                        <Input
-                                            type="password"
-                                            placeholder="Password"
-                                            className="w-full"
-                                            {...field}
-                                        />
+                                        <PasswordInput placeholder="Password" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
