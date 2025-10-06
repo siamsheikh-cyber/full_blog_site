@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { useSignUpMutation } from "@/redux/modules/user/user.api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router";
@@ -28,6 +29,8 @@ const formSchema = z
 
 function SignUp() {
 
+    const [signUp] = useSignUpMutation()
+
     const form = useForm<z.infer<typeof formSchema>>({
         defaultValues: {
             name: "",
@@ -37,8 +40,16 @@ function SignUp() {
         },
         resolver: zodResolver(formSchema),
     });
-    const onSubmit = (data: z.infer<typeof formSchema>) => {
-        console.log(data);
+    const onSubmit = async (data: z.infer<typeof formSchema>) => {
+        try {
+            const res = await signUp(data)
+            console.log(res);
+
+        } catch (error) {
+            console.log(error);
+
+
+        }
     };
 
     return (

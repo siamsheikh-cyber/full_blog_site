@@ -8,13 +8,16 @@ import './index.css'
 import { Provider as ReduxProvider } from 'react-redux'
 import { store } from './redux/store'
 
+
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <RouterProvider router={router} />
       <ReduxProvider store={store}>
+        <RouterProvider router={router} />
         <Toaster />
       </ReduxProvider>
     </ThemeProvider>
-  </StrictMode>,
+
+  </StrictMode >,
 )
