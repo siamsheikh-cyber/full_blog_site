@@ -8,11 +8,8 @@ function GlobalErrorHandler(err: any, req: Request, res: Response, next: NextFun
 
     const reponseError = {
         status: "error",
-        message: "ZodError",
-        error: {
-            path: "email",
-            message: "email is required"
-        }
+        message: "",
+        error: {}
     }
 
 
@@ -23,7 +20,7 @@ function GlobalErrorHandler(err: any, req: Request, res: Response, next: NextFun
         const updateError = JSON.parse(err.message).map((error: any) => {
             return {
 
-                path: error.path,
+                path: error.path[0],
                 message: error.message
             }
         })

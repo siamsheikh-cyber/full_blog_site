@@ -4,17 +4,14 @@ function GlobalErrorHandler(err, req, res, next) {
     const statusCode = httpStatus.INTERNAL_SERVER_ERROR;
     const reponseError = {
         status: "error",
-        message: "ZodError",
-        error: {
-            path: "email",
-            message: "email is required"
-        }
+        message: "",
+        error: {}
     };
     // zod error check
     if (err.name == "ZodError") {
         const updateError = JSON.parse(err.message).map((error) => {
             return {
-                path: error.path,
+                path: error.path[0],
                 message: error.message
             };
         });
