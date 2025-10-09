@@ -10,16 +10,17 @@ import { AuthServices } from "./auth.services.js";
 const login = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
 
 
-    const user = await AuthServices.login(req.body, res)
+    const data = await AuthServices.login(req.body, res)
 
 
 
     res.status(httpStatus.CREATED).json({
         status: "success",
         message: "user logged in succsesfully",
-        user: user,
+        data,
     })
 })
+
 
 
 
