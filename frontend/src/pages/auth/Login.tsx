@@ -16,7 +16,8 @@ const formSchema = z.object({
 });
 
 function Login() {
-    const [login] = useLoginMutation()
+
+    const [login] = useLoginMutation();
 
     const form = useForm<z.infer<typeof formSchema>>({
         defaultValues: {
@@ -26,19 +27,17 @@ function Login() {
         resolver: zodResolver(formSchema),
     });
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
+
         try {
             const res = await login(data).unwrap()
             if (res.status == "success") {
-                toast.success("you are logged successfully")
+                toast.success("You are logged in successfully")
             }
-
         } catch (error) {
-            toast.error("Logged in faild")
+            toast.error("Log in failed")
             console.log(error);
 
         }
-
-
     };
 
     return (

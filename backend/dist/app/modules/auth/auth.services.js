@@ -1,38 +1,74 @@
 import { User } from "../user/user.model.js";
-import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
+import { createAccessToken, createShortAccessToken, verifyAccessToken } from "../../utils/accessToken.js";
+import { generateOTP } from "../../utils/generateOTP.js";
 const login = async (payload, res) => {
     const { email, password } = payload;
     const isUserExist = await User.findOne({ email });
     if (!isUserExist) {
         res.status(400).json({
             status: "error",
-            message: "email dosen't match"
+            // message: "user doesn't exist",
+            message: "email doesn't match"
         });
     }
     const isPasswordMatch = await bcrypt.compare(password, isUserExist?.password);
     if (!isPasswordMatch) {
         res.status(400).json({
             status: "error",
-            message: "password dosen't match"
+            // message: "user doesn't exist",
+            message: "password doesn't match"
         });
     }
     const tokenPayload = {
         name: isUserExist?.name,
         email: isUserExist?.email,
-        avater: isUserExist?.avatar,
+        avatar: isUserExist?.avatar,
         isVerified: isUserExist?.isVerified,
         isPremium: isUserExist?.isPremium
     };
-    const accessToken = jwt.sign(tokenPayload, "secret", {
-        expiresIn: "1h"
+    const accessToken = createAccessToken(tokenPayload);
+    res.cookie("accessToken", accessToken, {
+        httpOnly: true,
+        secure: false
     });
-    res.cookie("accesstoken", accessToken);
     return {
         accessToken,
     };
 };
+const me = async (req, res) => {
+    const isAccessToken = req.cookies.accessToken;
+    if (!isAccessToken) {
+        res.status(401).json({
+            status: "error",
+            message: "user is not logged in"
+        });
+    }
+    const isVerified = verifyAccessToken(isAccessToken);
+    return isVerified;
+};
+const sendOtp = async (req, res) => {
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) {
+        res.status(401).json({
+            status: "error",
+            message: "user doesn't exist"
+        });
+    }
+    // Send Email to this user;
+    const updateUser = await User.updateOne({ email: user?.email }, { $set: { otp: generateOTP() } });
+    const accessToken = createShortAccessToken({
+        email: user?.email,
+    });
+    res.cookie("accessToken", accessToken, {
+        httpOnly: true,
+        secure: false
+    });
+};
 export const AuthServices = {
-    login
+    login,
+    me,
+    sendOtp
 };
 //# sourceMappingURL=auth.services.js.map

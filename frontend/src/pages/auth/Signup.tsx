@@ -12,8 +12,7 @@ import { z } from "zod";
 
 const formSchema = z
     .object({
-        name: z.string().min(1, "Please enter your name."),
-
+        name: z.string().min(1, "Please enter your name"),
         email: z.string().trim().email("Please enter a valid email address"),
         password: z
             .string()
@@ -29,7 +28,7 @@ const formSchema = z
 
 function SignUp() {
 
-    const [signUp] = useSignUpMutation()
+    const [signUp] = useSignUpMutation();
 
     const form = useForm<z.infer<typeof formSchema>>({
         defaultValues: {
@@ -41,13 +40,13 @@ function SignUp() {
         resolver: zodResolver(formSchema),
     });
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
+
         try {
             const res = await signUp(data)
             console.log(res);
 
         } catch (error) {
             console.log(error);
-
 
         }
     };
@@ -79,7 +78,7 @@ function SignUp() {
                                     <FormControl>
                                         <Input
                                             type="text"
-                                            placeholder="Full Name"
+                                            placeholder="Name"
                                             className="w-full"
                                             {...field}
                                         />
@@ -88,7 +87,6 @@ function SignUp() {
                                 </FormItem>
                             )}
                         />
-
                         <FormField
                             control={form.control}
                             name="email"
@@ -127,7 +125,7 @@ function SignUp() {
                                 <FormItem>
                                     <FormLabel>Confirm password</FormLabel>
                                     <FormControl>
-                                        <PasswordInput placeholder="Password" {...field} />
+                                        <PasswordInput placeholder="Confirm Password" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

@@ -2,11 +2,13 @@ import AppLayout from "@/components/layout/AppLayout";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import Post from "@/components/modules/blog/Post";
 import Login from "@/pages/auth/Login";
+import Logout from "@/pages/auth/Logout";
 import ResetPassword from "@/pages/auth/ResetPassword";
 import SendOtp from "@/pages/auth/SendOtp";
 import SignUp from "@/pages/auth/Signup";
 import Contact from "@/pages/contact/Contact";
 import HomePage from "@/pages/home";
+import { withAuth } from "@/utils/withAuth";
 import { createBrowserRouter } from "react-router";
 
 
@@ -33,6 +35,10 @@ const router = createBrowserRouter([
                 Component: Login
             },
             {
+                path: "/logout",
+                Component: Logout
+            },
+            {
                 path: "/sign-up",
                 Component: SignUp
             },
@@ -48,7 +54,7 @@ const router = createBrowserRouter([
     },
     {
         path: "me",
-        Component: DashboardLayout,
+        Component: withAuth(DashboardLayout),
 
     }
 ]);

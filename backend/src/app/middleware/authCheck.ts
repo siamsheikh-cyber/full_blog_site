@@ -1,16 +1,14 @@
 import type { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken"
-export const AuthCheck = (req: Request, res: Response, next: NextFunction) => {
 
-    const accessToken = req.cookies?.accesstoken
+export const authCheck = (req: Request, res: Response, next: NextFunction) => {
+    const accessToken = req.cookies?.accessToken
 
     if (!accessToken) {
-        res.status(400).json(
-            {
-                status: "error",
-                message: 'token not found'
-            }
-        )
+        res.status(400).json({
+            status: "error",
+            message: "Token not found"
+        })
     }
 
     const checkToken = jwt.verify(accessToken, "secret")
@@ -18,6 +16,6 @@ export const AuthCheck = (req: Request, res: Response, next: NextFunction) => {
     console.log(checkToken);
 
 
-    next()
+    next();
 
 }

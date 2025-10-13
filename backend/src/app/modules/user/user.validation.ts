@@ -20,4 +20,5 @@ export const createUserValidation = z.object({
 
     isVerified: z.boolean().default(false),
     isPremium: z.boolean().default(false),
+
 });
