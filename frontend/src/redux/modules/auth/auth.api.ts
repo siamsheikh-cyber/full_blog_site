@@ -21,6 +21,12 @@ const userApi = baseApi.injectEndpoints({
                 url: "/auth/logout",
             }),
         }),
+        sendOtp: builder.mutation({
+            query: () => ({
+                method: "POST",
+                url: "/auth/send-otp",
+            }),
+        }),
     }),
 })
 
@@ -28,6 +34,7 @@ const userApi = baseApi.injectEndpoints({
 export const {
     useLoginMutation,
     useMeQuery,
-    useLogoutQuery
+    useLogoutQuery,
+    useSendOtpMutation,
 } = userApi;
 

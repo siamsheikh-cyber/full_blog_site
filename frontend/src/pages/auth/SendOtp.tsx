@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { useSendOtpMutation } from "@/redux/modules/auth/auth.api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router";
@@ -15,6 +16,11 @@ const formSchema = z.object({
 
 function SendOtp() {
 
+
+    const [sendOtp] = useSendOtpMutation()
+
+
+
     const form = useForm<z.infer<typeof formSchema>>({
         defaultValues: {
             email: "",
@@ -22,7 +28,9 @@ function SendOtp() {
         resolver: zodResolver(formSchema),
     });
     const onSubmit = (data: z.infer<typeof formSchema>) => {
-        console.log(data);
+
+        const res = sendOtp(data).unwrap()
+        console.log(res);
     };
 
     return (
