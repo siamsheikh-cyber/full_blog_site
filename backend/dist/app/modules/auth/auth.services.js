@@ -132,19 +132,8 @@ const updatePassword = async (req, res) => {
         });
     }
     await User.findByIdAndUpdate(user?._id, { password: await encryptPassword(req.body.password) });
-    const tokenPayload = {
-        name: user?.name,
-        email: user?.email,
-        avatar: user?.avatar,
-        isVerified: user?.isVerified,
-        isPremium: user?.isPremium,
-        role: user?.role
-    };
-    const accessToken = createAccessToken(tokenPayload);
-    res.cookie("accessToken", accessToken, {
-        httpOnly: true,
-        secure: false
-    });
+    res.clearCookie("accessToken");
+    oyp: null;
 };
 export const AuthServices = {
     login,
