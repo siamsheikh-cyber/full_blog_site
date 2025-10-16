@@ -164,9 +164,76 @@ const verifyOtp = async (req: Request, res: Response) => {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+const updatePassword = async (req: Request, res: Response) => {
+
+    const isAccessToken = req.cookies.accessToken;
+
+    if (!isAccessToken) {
+        res.status(401).json({
+            status: "error",
+            message: "Invalid User"
+        })
+    }
+
+    const isVerified = verifyAccessToken(isAccessToken)
+
+    if (!isVerified) {
+        res.status(401).json({
+            status: "error",
+            message: "Unauthorize user"
+        })
+    }
+
+
+    const user = await User.findOne({ email: (isVerified as JwtPayload).email });
+
+    if (!user) {
+        res.status(401).json({
+            status: "error",
+            message: "user doesn't exist",
+        })
+    }
+
+
+
+    const tokenPayload = {
+        name: user?.name,
+        email: user?.email,
+        avatar: user?.avatar,
+        isVerified: user?.isVerified,
+        isPremium: user?.isPremium,
+        role: user?.role
+    }
+
+    const accessToken = createAccessToken(tokenPayload)
+
+
+    res.cookie("accessToken", accessToken, {
+        httpOnly: true,
+        secure: false
+    })
+
+
+
+}
+
+
+
+
 export const AuthServices = {
     login,
     me,
     sendOtp,
-    verifyOtp
+    verifyOtp,
+    updatePassword
 }
