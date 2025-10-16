@@ -13,7 +13,7 @@ export const NavMenu = (props: ComponentProps<typeof NavigationMenu>) => (
         <NavigationMenuList className="gap-3 space-x-0 data-[orientation=vertical]:flex-col data-[orientation=vertical]:items-start data-[orientation=vertical]:justify-start">
             <NavigationMenuItem>
                 <NavigationMenuLink asChild>
-                    <Link to="#">Home</Link>
+                    <Link to="/">Home</Link>
                 </NavigationMenuLink>
             </NavigationMenuItem>
             <NavigationMenuItem>
@@ -28,7 +28,7 @@ export const NavMenu = (props: ComponentProps<typeof NavigationMenu>) => (
             </NavigationMenuItem>
             <NavigationMenuItem>
                 <NavigationMenuLink asChild>
-                    <Link to="#">Contact Us</Link>
+                    <Link to="/contact">Contact Us</Link>
                 </NavigationMenuLink>
             </NavigationMenuItem>
         </NavigationMenuList>
