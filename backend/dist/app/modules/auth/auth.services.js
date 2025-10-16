@@ -3,6 +3,7 @@ import jwt, {} from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { createAccessToken, createShortAccessToken, verifyAccessToken } from "../../utils/accessToken.js";
 import { generateOTP } from "../../utils/generateOTP.js";
+import { encryptPassword } from "../../utils/password.js";
 const login = async (payload, res) => {
     const { email, password } = payload;
     const isUserExist = await User.findOne({ email });
@@ -130,6 +131,7 @@ const updatePassword = async (req, res) => {
             message: "user doesn't exist",
         });
     }
+    await User.findByIdAndUpdate(user?._id, { password: await encryptPassword(req.body.password) });
     const tokenPayload = {
         name: user?.name,
         email: user?.email,
