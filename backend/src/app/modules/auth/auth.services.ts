@@ -164,17 +164,6 @@ const verifyOtp = async (req: Request, res: Response) => {
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
 const updatePassword = async (req: Request, res: Response) => {
 
     const isAccessToken = req.cookies.accessToken;
@@ -195,7 +184,6 @@ const updatePassword = async (req: Request, res: Response) => {
         })
     }
 
-
     const user = await User.findOne({ email: (isVerified as JwtPayload).email });
 
     if (!user) {
@@ -205,12 +193,16 @@ const updatePassword = async (req: Request, res: Response) => {
         })
     }
 
-    await User.findByIdAndUpdate(user?._id, { password: await encryptPassword(req.body.password) })
+    await User.findByIdAndUpdate(user?._id, {
+        password: await encryptPassword(req.body.password),
+        otp: null
+    })
 
-    res.clearCookie("accessToken")
-    oyp: null
+    res.clearCookie("accessToken");
+
 
 }
+
 
 export const AuthServices = {
     login,

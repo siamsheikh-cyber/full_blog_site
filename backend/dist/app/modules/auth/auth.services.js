@@ -131,9 +131,11 @@ const updatePassword = async (req, res) => {
             message: "user doesn't exist",
         });
     }
-    await User.findByIdAndUpdate(user?._id, { password: await encryptPassword(req.body.password) });
+    await User.findByIdAndUpdate(user?._id, {
+        password: await encryptPassword(req.body.password),
+        otp: null
+    });
     res.clearCookie("accessToken");
-    oyp: null;
 };
 export const AuthServices = {
     login,
