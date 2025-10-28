@@ -5,6 +5,7 @@ import bcrypt from "bcryptjs";
 import { createAccessToken, createShortAccessToken, verifyAccessToken } from "../../utils/accessToken.js";
 import { generateOTP } from "../../utils/generateOTP.js";
 import { encryptPassword } from "../../utils/password.js";
+import { envVars } from "../../config/env.js";
 const login = async (payload, res) => {
     const { email, password } = payload;
     const isUserExist = await User.findOne({ email });
@@ -52,6 +53,7 @@ const me = async (req, res) => {
 };
 const sendOtp = async (req, res) => {
     const user = await User.findOne({ email: req.body.email });
+    const otp = generateOTP();
     if (!user) {
         res.status(401).json({
             status: "error",
@@ -59,25 +61,25 @@ const sendOtp = async (req, res) => {
         });
     }
     // Send Email to this user;
-    const updateUser = await User.updateOne({ email: user?.email }, { $set: { otp: generateOTP() } });
+    const updateUser = await User.updateOne({ email: user?.email }, { $set: { otp } });
     const accessToken = createShortAccessToken({
         email: user?.email,
     });
     const transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 587,
+        host: envVars.EMAIL.SMPT_HOST,
+        port: envVars.EMAIL.SMPT_PORT,
         secure: false, // true for 465, false for other ports
         auth: {
-            user: "siamthecoder@gmail.com",
-            pass: "poji cmqf mkaw aeln",
+            user: envVars.EMAIL.SMPT_USERNAME,
+            pass: envVars.EMAIL.SMPT_PASS,
         },
     });
     const info = await transporter.sendMail({
         from: 'siamthecoder@gmail.com',
         to: "sheiksiam59@gmail.com",
         subject: "Reset Password OTP",
-        text: "Hello world?", // plain‑text body
-        html: "<b>Hello world?</b>", // HTML body
+        // text: "Hello world?", // plain‑text body
+        html: `<b>Your OTP is ${otp}</b>`, // HTML body
     });
     console.log("Message sent:", info.messageId);
     res.cookie("accessToken", accessToken, {
