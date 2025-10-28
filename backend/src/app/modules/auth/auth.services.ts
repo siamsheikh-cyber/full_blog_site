@@ -2,7 +2,7 @@ import type { Request, Response } from "express";
 import { User } from "../user/user.model.js";
 import type { IAuth } from "./auth.interface.js"
 import jwt, { type JwtPayload } from "jsonwebtoken"
-
+import nodemailer from "nodemailer"
 import bcrypt from "bcryptjs";
 import { createAccessToken, createShortAccessToken, verifyAccessToken } from "../../utils/accessToken.js";
 import { generateOTP } from "../../utils/generateOTP.js";
@@ -95,6 +95,27 @@ const sendOtp = async (req: Request, res: Response) => {
     const accessToken = createShortAccessToken({
         email: user?.email,
     })
+
+
+    const transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 587,
+        secure: false, // true for 465, false for other ports
+        auth: {
+            user: "siamthecoder@gmail.com",
+            pass: "poji cmqf mkaw aeln",
+        },
+    });
+
+    const info = await transporter.sendMail({
+        from: 'siamthecoder@gmail.com',
+        to: "sheiksiam59@gmail.com",
+        subject: "Reset Password OTP",
+        text: "Hello world?", // plain‑text body
+        html: "<b>Hello world?</b>", // HTML body
+    });
+
+    console.log("Message sent:", info.messageId);
 
 
     res.cookie("accessToken", accessToken, {
