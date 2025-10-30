@@ -12,13 +12,23 @@ const createUser = async (req: Request, res: Response) => {
 
     // console.log(createdUser);
 
-    const payment = await sslCommerze()
+    const payment = await sslCommerze(
+        {
+            name: createdUser.name,
+            email: createdUser.email,
+        }
+    )
 
-    console.log(payment);
 
 
 
-    return createdUser;
+    return {
+        user: createdUser,
+        payment: {
+            status: payment.status,
+            GatewayPageURL: payment.GatewayPageURL,
+        }
+    }
 }
 
 

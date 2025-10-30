@@ -1,5 +1,5 @@
 import axios from "axios";
-export const sslCommerze = async () => {
+export const sslCommerze = async (cus_data) => {
     const paymentInit = {
         store_id: "advan6903620128ff0",
         store_passwd: "advan6903620128ff0@ssl",
@@ -9,8 +9,8 @@ export const sslCommerze = async () => {
         success_url: "http://localhost:5173/payment/success",
         fail_url: "http://localhost:5173/payment/fail",
         cancel_url: "http://localhost:5173/payment/cencel",
-        cus_name: "Customer Name",
-        cus_email: "cust@yahoo.com",
+        cus_name: cus_data.name,
+        cus_email: cus_data.email,
         cus_add1: "Dhaka",
         cus_add2: "Dhaka",
         cus_city: "Dhaka",
@@ -26,7 +26,7 @@ export const sslCommerze = async () => {
         ship_state: "Dhaka",
         ship_postcode: "1000",
         ship_country: "Bangladesh",
-        multi_card_name: "mastercard,visacard,amexcard",
+        // multi_card_name: "mastercard,visacard,amexcard",
         value_a: "ref001_A",
         value_b: "ref002_B",
         value_c: "ref003_C",
@@ -41,7 +41,7 @@ export const sslCommerze = async () => {
                 "Content-Type": "application/x-www-form-urlencoded",
             }
         });
-        return res;
+        return res.data;
     }
     catch (error) {
     }

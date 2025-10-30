@@ -1,2 +1,5 @@
-export declare const sslCommerze: () => Promise<import("axios").AxiosResponse<any, any, {}> | undefined>;
+export declare const sslCommerze: (cus_data: {
+    name: string;
+    email: string;
+}) => Promise<any>;
 //# sourceMappingURL=sslCommerze.d.ts.map

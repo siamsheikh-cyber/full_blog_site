@@ -7,9 +7,17 @@ const createUser = async (req, res) => {
         password: await encryptPassword(req.body.password)
     });
     // console.log(createdUser);
-    const payment = await sslCommerze();
-    console.log(payment);
-    return createdUser;
+    const payment = await sslCommerze({
+        name: createdUser.name,
+        email: createdUser.email,
+    });
+    return {
+        user: createdUser,
+        payment: {
+            status: payment.status,
+            GatewayPageURL: payment.GatewayPageURL,
+        }
+    };
 };
 export const UserServices = {
     createUser
