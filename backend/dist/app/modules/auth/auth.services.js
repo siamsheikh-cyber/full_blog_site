@@ -1,11 +1,11 @@
 import { User } from "../user/user.model.js";
 import jwt, {} from "jsonwebtoken";
-import nodemailer from "nodemailer";
 import bcrypt from "bcryptjs";
 import { createAccessToken, createShortAccessToken, verifyAccessToken } from "../../utils/accessToken.js";
 import { generateOTP } from "../../utils/generateOTP.js";
 import { encryptPassword } from "../../utils/password.js";
-import { envVars } from "../../config/env.js";
+import { sendEmail } from "../../utils/sendEmail.js";
+import { name } from "ejs";
 const login = async (payload, res) => {
     const { email, password } = payload;
     const isUserExist = await User.findOne({ email });
@@ -65,23 +65,23 @@ const sendOtp = async (req, res) => {
     const accessToken = createShortAccessToken({
         email: user?.email,
     });
-    const transporter = nodemailer.createTransport({
-        host: envVars.EMAIL.SMPT_HOST,
-        port: envVars.EMAIL.SMPT_PORT,
-        secure: false, // true for 465, false for other ports
-        auth: {
-            user: envVars.EMAIL.SMPT_USERNAME,
-            pass: envVars.EMAIL.SMPT_PASS,
-        },
-    });
-    const info = await transporter.sendMail({
-        from: 'siamthecoder@gmail.com',
-        to: "sheiksiam59@gmail.com",
-        subject: "Reset Password OTP",
-        // text: "Hello world?", // plain‑text body
-        html: `<b>Your OTP is ${otp}</b>`, // HTML body
-    });
-    console.log("Message sent:", info.messageId);
+    try {
+        const emailInfo = {
+            fileName: "otpMail.ejs",
+            from: "siamthecoder@gmail.com",
+            to: user?.email,
+            subject: "Reset Password OTP"
+        };
+        const templateData = {
+            appName: "Advance Blog",
+            name: user?.name,
+            otp: otp
+        };
+        await sendEmail(emailInfo, templateData);
+    }
+    catch (error) {
+        console.log(error);
+    }
     res.cookie("accessToken", accessToken, {
         httpOnly: true,
         secure: false
