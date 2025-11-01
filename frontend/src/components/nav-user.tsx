@@ -1,7 +1,7 @@
 import {
   BadgeCheck,
   ChevronsUpDown,
-  LogOut,
+
 } from "lucide-react"
 
 import {
@@ -24,7 +24,10 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
-import { Link } from "react-router"
+import { Button } from "./ui/button"
+import { useLogoutMutation } from "@/redux/modules/auth/auth.api"
+import { toast } from "sonner"
+import { useNavigate } from "react-router"
 
 export function NavUser({
   user,
@@ -36,6 +39,20 @@ export function NavUser({
   }
 }) {
   const { isMobile } = useSidebar()
+
+  const [logout] = useLogoutMutation();
+  const navigate = useNavigate()
+
+  const handleLogout = async () => {
+    try {
+      await logout(undefined);
+      toast.success("logged out successfully")
+      navigate('/')
+    } catch (error) {
+
+    }
+
+  }
 
   return (
     <SidebarMenu>
@@ -86,10 +103,9 @@ export function NavUser({
             </DropdownMenuGroup>
 
             <DropdownMenuItem asChild>
-              <Link to={"/logout"}>
-                <LogOut />
+              <Button onClick={handleLogout} variant="link">
                 Log out
-              </Link>
+              </Button>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

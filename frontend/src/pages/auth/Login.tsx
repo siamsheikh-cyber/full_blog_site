@@ -34,7 +34,7 @@ function Login() {
             if (res.status == "success") {
                 toast.success("You are logged in successfully")
             }
-            navigate("/")
+            navigate('/')
         } catch (error) {
             toast.error("Log in failed")
             console.log(error);
