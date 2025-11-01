@@ -3,7 +3,12 @@ dotenv.config();
 const envVarsFn = () => {
     const requiredEnvVariables = [
         "PORT",
-        "DB_URI"
+        "DB_URI",
+        "SMPT_USERNAME",
+        "SMPT_PASS",
+        "PAYMENT_BACKEND_CANCEL_URL",
+        "PAYMENT_BACKEND_FAIL_URL",
+        "PAYMENT_BACKEND_SUCCESS_URL",
     ];
     requiredEnvVariables.forEach((key) => {
         if (!process.env[key]) {
@@ -18,6 +23,11 @@ const envVarsFn = () => {
             SMPT_PORT: process.env.SMPT_PORT,
             SMPT_USERNAME: process.env.SMPT_USERNAME,
             SMPT_PASS: process.env.SMPT_PASS,
+        },
+        PAYMENT: {
+            PAYMENT_BACKEND_SUCCESS_URL: process.env.PAYMENT_BACKEND_SUCCESS_URL,
+            PAYMENT_BACKEND_FAIL_URL: process.env.PAYMENT_BACKEND_FAIL_URL,
+            PAYMENT_BACKEND_CANCEL_URL: process.env.PAYMENT_BACKEND_CANCEL_URL,
         }
     };
 };

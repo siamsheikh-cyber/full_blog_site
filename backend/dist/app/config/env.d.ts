@@ -7,6 +7,11 @@ type EnvType = {
         SMPT_USERNAME: string;
         SMPT_PASS: string;
     };
+    PAYMENT: {
+        PAYMENT_BACKEND_SUCCESS_URL: string;
+        PAYMENT_BACKEND_FAIL_URL: string;
+        PAYMENT_BACKEND_CANCEL_URL: string;
+    };
 };
 export declare const envVars: EnvType;
 export {};
