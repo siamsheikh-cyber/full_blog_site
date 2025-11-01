@@ -6,6 +6,8 @@ import ResetPassword from "@/pages/auth/ResetPassword";
 import SendOtp from "@/pages/auth/SendOtp";
 import SignUp from "@/pages/auth/Signup";
 import VerifyOtp from "@/pages/auth/VerifyOtp";
+import AllCategory from "@/pages/category/AllCategory";
+import CreateCategory from "@/pages/category/CreateCategory";
 import Contact from "@/pages/contact/Contact";
 import HomePage from "@/pages/home";
 import { withAuth } from "@/utils/withAuth";
@@ -55,7 +57,16 @@ const router = createBrowserRouter([
     {
         path: "me",
         Component: withAuth(DashboardLayout),
-
+        children: [
+            {
+                path: "create-category",
+                Component: CreateCategory
+            },
+            {
+                path: "all-category",
+                Component: AllCategory
+            },
+        ]
     }
 ]);
 

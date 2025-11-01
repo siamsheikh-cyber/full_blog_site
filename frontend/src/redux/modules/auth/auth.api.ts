@@ -22,7 +22,7 @@ const userApi = baseApi.injectEndpoints({
                 method: "POST",
                 url: "/auth/logout",
             }),
-            // invalidatesTags: ["USER"]
+            // invalidatjesTags: ["USER"]
         }),
 
         sendOtp: builder.mutation({

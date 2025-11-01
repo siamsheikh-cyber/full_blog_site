@@ -18,24 +18,24 @@ import {
 // This is sample data.
 const data = {
   user: {
-    name: "Nasrullah Mansur",
-    email: "test@email.com",
+    name: "Siam Sheikh",
+    email: "thecodersiam@gmail.com",
     avatar: "/avatars/shadcn.jpg",
   },
   navMain: [
     {
-      title: "Platform Users",
+      title: "Blog Categories",
       url: "#",
       icon: SquareTerminal,
       isActive: true,
       items: [
         {
-          title: "All Users",
-          url: "#",
+          title: "All Categories",
+          url: "/me/all-category",
         },
         {
-          title: "Create Users",
-          url: "#",
+          title: "Create Categories",
+          url: "/me/create-category",
         },
       ],
     },

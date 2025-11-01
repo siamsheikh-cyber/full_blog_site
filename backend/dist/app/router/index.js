@@ -2,6 +2,7 @@ import { Router } from "express";
 import { UserRoute } from "../modules/user/user.route.js";
 import { AuthRoute } from "../modules/auth/auth.route.js";
 import { paymentRoute } from "../modules/payment/payment.route.js";
+import { CategoryRoute } from "../modules/category/category.route.js";
 const router = Router();
 const routeList = [
     {
@@ -15,7 +16,11 @@ const routeList = [
     {
         path: "/payment",
         route: paymentRoute,
-    }
+    },
+    {
+        path: "/category",
+        route: CategoryRoute,
+    },
 ];
 routeList.forEach(route => {
     router.use(route.path, route.route);
