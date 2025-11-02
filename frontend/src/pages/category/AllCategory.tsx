@@ -1,43 +1,73 @@
-
+import { Button } from "@/components/ui/button";
 import {
     Table,
     TableBody,
-    TableCaption,
     TableCell,
     TableHead,
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
+import { useGetCategoriesQuery } from "@/redux/modules/category/Category.Api";
+import { Link } from "react-router";
 
 
 
-function AllCategory() {
+function AllCategories() {
+
+    const { data, isLoading } = useGetCategoriesQuery(undefined)
+
+
+
     return (
-        <>
-            <div>
-                <h1> All Categories</h1>
-                <Table className="border p-8">
-                    <TableCaption>A list of your recent invoices.</TableCaption>
-                    <TableHeader>
+        <div>
+            <h1 className="text-2xl text-center font-bold mb-8">All Categories</h1>
+
+            <Table className="border max-w-screen-md mx-auto py-6">
+                <TableHeader>
+                    <TableRow>
+
+                        <TableHead>CL</TableHead>
+                        <TableHead>Title</TableHead>
+                        <TableHead className="text-right">Action</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {isLoading &&
                         <TableRow>
-                            <TableHead className="w-[100px]">Invoice</TableHead>
-                            <TableHead>Title</TableHead>
-                            <TableHead>Action</TableHead>
-                            <TableHead className="text-right">Amount</TableHead>
+                            <TableCell colSpan={3}>Loading ...</TableCell>
                         </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        <TableRow>
-                            <TableCell className="font-medium">INV001</TableCell>
-                            <TableCell>Paid</TableCell>
-                            <TableCell>Credit Card</TableCell>
-                            <TableCell className="text-right">$250.00</TableCell>
-                        </TableRow>
-                    </TableBody>
-                </Table>
-            </div>
-        </>
+
+                    }
+
+                    {data &&
+                        data.data.map(((cat: { _id: string, title: string }, index: number) => (
+
+                            <TableRow key={cat._id}>
+
+
+                                <TableCell>{index + 1}</TableCell>
+                                <TableCell>{cat.title}</TableCell>
+                                <TableCell className="text-right">
+                                    <div className="inline-flex gap-2">
+                                        <Button className="cursor-pointer">
+                                            <Link to={`/me/edit-category/${cat._id}`}>
+                                                Edit
+                                            </Link>
+
+                                        </Button>
+                                        <Button className="cursor-pointer">
+                                            Delete
+                                        </Button>
+                                    </div>
+                                </TableCell>
+                            </TableRow>
+                        )))
+                    }
+
+                </TableBody>
+            </Table>
+        </div>
     );
 }
 
-export default AllCategory;
+export default AllCategories;

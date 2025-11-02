@@ -14,12 +14,22 @@ const allCategories = catchAsync(async (req, res, next) => {
     const data = await Category.find({});
     res.status(httpStatus.CREATED).json({
         status: "success",
-        message: "user logged in successfully",
+        message: "all categories",
+        data
+    });
+});
+const vewCategory = catchAsync(async (req, res, next) => {
+    const id = req.params.id;
+    const data = await Category.findById(id);
+    res.status(httpStatus.CREATED).json({
+        status: "success",
+        message: "view category",
         data
     });
 });
 export const CategoryController = {
     create,
     allCategories,
+    vewCategory
 };
 //# sourceMappingURL=category.controller.js.map

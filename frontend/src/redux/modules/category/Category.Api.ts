@@ -8,12 +8,29 @@ const CategoryApi = baseApi.injectEndpoints({
                 url: "/category/create",
                 data: data
             }),
+            invalidatesTags: ["CATEGORY"]
+        }),
+        getCategories: builder.query({
+            query: (data) => ({
+                method: "GET",
+                url: "/category/all-categories",
+                data: data
+            }),
+            providesTags: ["CATEGORY"]
+        }),
+        viewCategory: builder.query({
+            query: (id) => ({
+                method: "GET",
+                url: `/category/vew-category/${id}`,
+            }),
         }),
     }),
 })
 
 
 export const {
-    useCreateMutation
+    useCreateMutation,
+    useGetCategoriesQuery,
+    useViewCategoryQuery,
 } = CategoryApi;
 

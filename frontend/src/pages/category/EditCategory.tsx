@@ -2,10 +2,10 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { useCreateMutation } from "@/redux/modules/category/Category.Api";
+import { useCreateMutation, useViewCategoryQuery } from "@/redux/modules/category/Category.Api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { toast } from "sonner";
 
 import { z } from "zod";
@@ -14,7 +14,14 @@ const formSchema = z.object({
     title: z.string().min(1, "Title is Required"),
 });
 
-function CreateCategory() {
+function EditCategory() {
+
+    const params = useParams()
+
+    const { data } = useViewCategoryQuery(params.id)
+
+    console.log(data);
+
 
     const [createCat] = useCreateMutation()
     const navigate = useNavigate()
@@ -45,7 +52,7 @@ function CreateCategory() {
             <div className="max-w-xs w-full flex flex-col items-center border p-4">
 
                 <p className="mt-4 text-xl font-semibold tracking-tight">
-                    Create Category
+                    Edit Title
                 </p>
 
                 <div className="my-7 w-full flex items-center justify-center overflow-hidden">
@@ -62,7 +69,7 @@ function CreateCategory() {
                             name="title"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Create Title</FormLabel>
+                                    <FormLabel>Edit Title</FormLabel>
                                     <FormControl>
                                         <Input
                                             type="text"
@@ -76,7 +83,7 @@ function CreateCategory() {
                             )}
                         />
                         <Button type="submit" className="mt-4 w-full cursor-pointer">
-                            Save Title
+                            EditTitle
                         </Button>
                     </form>
                 </Form>
@@ -85,4 +92,4 @@ function CreateCategory() {
     );
 }
 
-export default CreateCategory;
+export default EditCategory;

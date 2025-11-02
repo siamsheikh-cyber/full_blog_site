@@ -23,7 +23,21 @@ const allCategories = catchAsync(async (req: Request, res: Response, next: NextF
 
     res.status(httpStatus.CREATED).json({
         status: "success",
-        message: "user logged in successfully",
+        message: "all categories",
+        data
+    })
+})
+
+const vewCategory = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+
+    const id = req.params.id
+
+
+    const data = await Category.findById(id)
+
+    res.status(httpStatus.CREATED).json({
+        status: "success",
+        message: "view category",
         data
     })
 })
@@ -32,4 +46,5 @@ const allCategories = catchAsync(async (req: Request, res: Response, next: NextF
 export const CategoryController = {
     create,
     allCategories,
+    vewCategory
 }
